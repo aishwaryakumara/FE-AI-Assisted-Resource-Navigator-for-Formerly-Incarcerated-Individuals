@@ -1,0 +1,43 @@
+/* LegalChat container */
+.legal-chat-container {
+  display: flex;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden;
+}
+
+/* Sidebar styles */
+.sidebar {
+  transition: width 0.3s ease-in-out; /* Smooth transition for open/close */
+  overflow: auto;
+}
+
+.sidebar.open {
+  width: 250px; /* Width when sidebar is open */
+}
+
+.sidebar.closed {
+  width: 60px; /* Width when sidebar is closed */
+}
+
+/* Main content styles */
+.main {
+  flex-grow: 1; /* Main content takes up remaining space */
+  overflow: auto;
+  padding: 1rem;
+  transition: margin-left 0.3s ease-in-out;
+}
+
+/* Button styling */
+.toggle-btn {
+  display: block;
+  margin: 1rem auto;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+/* Optional: Media query for responsiveness */
+@media (max-width: 768px) {
+  .legal-chat-container {
+    flex-direction: column; /* Stack components vertically on smaller screens */
+  }
+}

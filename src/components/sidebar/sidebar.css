@@ -1,0 +1,109 @@
+.sidebar {
+    min-height: 100vh;
+    display: flex; /* Changed from inline-flex to flex for better alignment */
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #f0f4f8;
+    padding: 25px 15px;
+    transition: width 0.3s ease-in-out; /* Smooth transition for dynamic width */
+    overflow: hidden; /* Prevent content overflow */
+    width: 250px; /* Default width for extended sidebar */
+}
+
+.sidebar.sidebar-collapsed {
+    width: 60px; /* Collapsed state */
+}
+
+.sidebar img {
+    width: 20px;
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease-in-out; /* Add hover or dynamic effects */
+}
+
+.sidebar .menu {
+    display: block;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.sidebar .new-chat {
+    display: flex; /* Changed from inline-flex for consistency */
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    padding: 10px 15px;
+    background-color: #e6eaf1;
+    border-radius: 50px;
+    font-size: 14px;
+    color: grey;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out; /* Add transitions */
+}
+
+.sidebar .new-chat:hover {
+    background-color: #d9dfe6;
+    transform: scale(1.05); /* Slight hover effect */
+}
+
+.sidebar .recent {
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 1.3s;
+}
+
+.sidebar .recent-title {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #333; /* Improved color contrast */
+}
+
+.sidebar .recent-entry {
+    display: flex;
+    align-items: center; /* Aligned with icons */
+    gap: 10px;
+    padding: 10px 15px; /* Adjusted padding for uniformity */
+    border-radius: 50px;
+    cursor: pointer;
+    color: #282828;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out; /* Add hover effect transition */
+}
+
+.sidebar .recent-entry:hover {
+    background-color: #e6eaf1;
+    color: #000; /* Enhanced hover effect */
+}
+
+.sidebar .bottom-item {
+    display: flex;
+    align-items: center; /* Align with icons */
+    gap: 10px;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 50px;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.sidebar .bottom-item:hover {
+    background-color: #e6eaf1;
+    color: #000;
+}
+
+@media screen and (max-width: 600px) {
+    .sidebar {
+        display: none; /* Hide sidebar on small screens */
+    }
+}
+
+/* Fade-in animation for recent items */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
