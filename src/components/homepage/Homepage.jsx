@@ -29,12 +29,12 @@ const Homepage = () => {
             LegalAI helps you navigate complex legal systems effortlessly.
             Connect, explore, and simplify.
           </h3>
-          {/* <Link
+          <Link
             to="/chat"
             className="px-6 py-3 bg-gradient-to-r from-yellow-500 to-yellow-400 text-white rounded-full shadow-lg hover:shadow-xl transition-all"
           >
-            Start a Chat
-          </Link> */}
+            Test Start a Chat 
+          </Link>
           <Link
             to="/legalchat"
             className="px-6 py-3 bg-gradient-to-r from-yellow-500 to-yellow-400 text-white rounded-full shadow-lg hover:shadow-xl transition-all"
