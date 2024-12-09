@@ -54,7 +54,6 @@ be used as a conversational agent by the users to get in depth information regar
 
 
 - **config**: Contains configuration files.
-- **gemini.js**: Configuration for using GeminiAPI in the app.
 - **Context.jsx**: Provides global state management.
 
 ## Installation
@@ -82,7 +81,7 @@ To install the project, follow these steps:
 
 3. **Navigate to the project directory:**
     ```bash
-    cd legal-system-ai
+    cd FE-AI-Assisted-Resource-Navigator-for-Formerly-Incarcerated-Individuals
     ```
 4. **Install Vite:**
     ```bash
@@ -104,7 +103,7 @@ To install the project, follow these steps:
 
     Create a .env file in the root directory to store your API key securely:
     ```bash
-        GEMINI_API_KEY="your_api_key_here"
+        OPENAI_API_KEY="your_api_key_here"
     ```
 
     To prevent accidental sharing of the .env file, add it to .gitignore:
