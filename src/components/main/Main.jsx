@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './main.css'; // Importing styles required
 import { assets } from '../../assets/assets'; // Importing assets
 import { Context } from '../../components/context/Context';
@@ -21,7 +21,27 @@ const Main = () => {
         input,
     } = useContext(Context);
 
-    // const [chatHistory, setChatHistory] = useState([]);   
+    const [chatHistory, setChatHistory] = useState([]);   
+
+    /**
+     * Handles sending a message and updating chat history.
+     * @param {string} message - The user's message.
+     */
+    const handleSend = async (message) => {
+        if (!message) return;
+
+        // Add the user's message to the chat history
+        setChatHistory((prev) => [...prev, { sender: 'user', text: message }]);
+        setInput(''); // Clear the input box
+
+        // Send the message to the backend
+        const response = await onSent(message);
+
+        if (response) {
+                // Append the AI's response to the chat history
+                setChatHistory((prev) => [...prev, { sender: 'ai', text: response }]);
+            }
+        };
 
     const fetchChatHistory = async () => {
         const sessionToken = sessionStorage.getItem('sessionToken');
@@ -49,6 +69,12 @@ const Main = () => {
         } catch (error) {
             console.error('Error fetching chat history:', error);
         }
+    };
+
+    const handleCardClick = (text) => {
+        sessionStorage.removeItem("chatId");
+        setInput(text);
+        onSent(text);
     };
 
      /**
@@ -83,6 +109,16 @@ const Main = () => {
 
             <div className='main-content'>
 
+                <div className="chat-history">
+                        {chatHistory.map((message, index) => (
+                            <div
+                                key={index}
+                                className={`message ${message.sender === 'user' ? 'user-message' : 'ai-message'}`}
+                            >
+                                <p>{message.text}</p>
+                            </div>
+                        ))}
+                </div>
                 {!showResults
                     ? <>
                         <div className='main-content-greet'>
@@ -93,22 +129,22 @@ const Main = () => {
                         </div>
 
                         <div className='main-content-cards'>
-                            <div className='card'>
+                            <div className='card' onClick={() => handleCardClick('Find me Employment related Cases')}>
                                 <img src={assets.compass_icon} alt="compss_icon" />
                                 <p>Find me Employment related Cases</p>
                             </div>
 
-                            <div className='card'>
+                            <div className='card' onClick={() => handleCardClick('Help me with getting resources on Housing')}>
                                 <img src={assets.bulb_icon} alt="bulb_icon" />
                                 <p>Help me with getting resources on Housing</p>
                             </div>
 
-                            <div className='card'>
+                            <div className='card' onClick={() => handleCardClick('Where can I get legal support?')}>
                                 <img src={assets.code_icon} alt="compss_icon" />
                                 <p>Where can I get legal support?</p>
                             </div>
 
-                            <div className='card'>
+                            <div className='card' onClick={() => handleCardClick('What resources are available for me?')}>
                                 <img src={assets.message_icon} alt="compss_icon" />
                                 <p>What resources are available for me?</p>
                             </div>

@@ -18,6 +18,7 @@ const SideBar = () => {
     };
 
     const handleNewChat = async () => {
+
         await startNewChat(); // Start a new chat
       };
 

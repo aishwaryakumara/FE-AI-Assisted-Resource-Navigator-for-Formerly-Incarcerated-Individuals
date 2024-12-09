@@ -74,10 +74,12 @@ const ContextProvider = ({ children }) => {
      */
     const newChat = async () => {
         // await startNewChat();
+        sessionStorage.removeItem("chatId");
         setLoading(false)
         setshowResults(false);
         setInput('');
         setResultData('');
+        navigate(`/legalchat`);
     }
 
     /**
