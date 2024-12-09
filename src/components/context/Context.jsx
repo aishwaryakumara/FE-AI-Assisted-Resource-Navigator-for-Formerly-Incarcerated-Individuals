@@ -15,9 +15,16 @@ const ContextProvider = ({ children }) => {
     const [loading, setLoading] = useState(false);
     const [resultData, setResultData] = useState("");
 
-    // const [chatId, setChatId] = useState(null);
+    const [chatId, setChatId] = useState(null);
     const navigate = useNavigate();
-    const { chatId } = useParams();
+    // const { chatId } = useParams();
+    // const { chatId: urlChatId } = useParams(); // Get chatId from the URL
+    // const [chatId, setChatId] = useState(null);
+
+    // // Update chatId from the URL dynamically
+    // useEffect(() => {
+    //     if (urlChatId) setChatId(urlChatId);
+    // }, [urlChatId]);
 
     /**
      * Creating a typeWriter affect by adding delay.
@@ -119,6 +126,7 @@ const ContextProvider = ({ children }) => {
      */
     const onSent = async (prompt) => {
 
+        const chatId = sessionStorage.getItem('chatId')
         console.log("prompt = ",prompt)
         console.log("chatId = ",chatId)
         setResultData('');
@@ -129,11 +137,11 @@ const ContextProvider = ({ children }) => {
             // chatId,
             user_query: prompt,
         };
-
+        // chatId = useParams();
         if (!chatId) {
             try {
                 console.log("body = ",JSON.stringify(payload))
-                const response = await fetch('api/legalchat/get_response', {
+                const response = await fetch('/api/legalchat/get_response', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -148,8 +156,10 @@ const ContextProvider = ({ children }) => {
                     setRecentPrompt(payload.user_query);
                     processResponse(data.user_query_response);
                     navigate(`/legalchat/${data.chat_session_id}`);
+                    sessionStorage.setItem("chatId", data.chat_session_id);
                     // return data.chat_session_id
                     // navigate(`/legalchat/${data.chat_session_id}`);
+
                 } else {
                     alert(data.message);
                 }
@@ -166,7 +176,7 @@ const ContextProvider = ({ children }) => {
         {
             try {
                 console.log("body = ",JSON.stringify(payload))
-                const response = await fetch(`api/legalchat/${chatId}/get_response`, {
+                const response = await fetch(`/api/legalchat/${chatId}/get_response`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -178,7 +188,8 @@ const ContextProvider = ({ children }) => {
                 const data = await response.json();
                 if (response.ok) {
                     setRecentPrompt(payload.user_query);
-                    processResponse(data.response);
+                    processResponse(data.user_query_response);
+                    // navigate(`/legalchat/${data.chat_session_id}`);
                 } else {
                     alert(data.message);
                 }
