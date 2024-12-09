@@ -18,7 +18,7 @@ import PrivacyPolicy from "./components/privacypolicy/PrivacyPolicy";
 const App = () => {
   return (
     // <ContextProvider>
-    <Router>
+    <>
       <LegalAIHeader />
       <FeedbackButton />
       <Routes>
@@ -39,7 +39,7 @@ const App = () => {
         <Route path="/legalchat/:chatId" element={<LegalChat />} />
 
       </Routes>
-    </Router>
+    </>
     // </ContextProvider>
   );
 };

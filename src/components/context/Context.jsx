@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 import { runGemini } from '../../components/config/gemini';
+import { useNavigate, useParams } from "react-router-dom";
 
 // Creating a context for global state management
 export const Context = createContext();
@@ -14,7 +15,9 @@ const ContextProvider = ({ children }) => {
     const [loading, setLoading] = useState(false);
     const [resultData, setResultData] = useState("");
 
-    const [chatId, setChatId] = useState(null);
+    // const [chatId, setChatId] = useState(null);
+    const navigate = useNavigate();
+    const { chatId } = useParams();
 
     /**
      * Creating a typeWriter affect by adding delay.
@@ -115,7 +118,9 @@ const ContextProvider = ({ children }) => {
      * @param {string} prompt - The input prompt to be passed
      */
     const onSent = async (prompt) => {
+
         console.log("prompt = ",prompt)
+        console.log("chatId = ",chatId)
         setResultData('');
         setLoading(true);
         setshowResults(true);
@@ -143,6 +148,8 @@ const ContextProvider = ({ children }) => {
                     setRecentPrompt(payload.user_query);
                     processResponse(data.user_query_response);
                     navigate(`/legalchat/${data.chat_session_id}`);
+                    // return data.chat_session_id
+                    // navigate(`/legalchat/${data.chat_session_id}`);
                 } else {
                     alert(data.message);
                 }
