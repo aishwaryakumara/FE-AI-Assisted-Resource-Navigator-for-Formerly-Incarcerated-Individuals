@@ -1,6 +1,6 @@
 .sidebar {
     min-height: 100vh;
-    display: flex; /* Changed from inline-flex to flex for better alignment */
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
     background-color: #f0f4f8;
@@ -27,22 +27,44 @@
 }
 
 .sidebar .new-chat {
-    display: flex; /* Changed from inline-flex for consistency */
-    align-items: center;
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    padding-top: 10px;
     gap: 10px;
-    margin-top: 12px;
-    padding: 10px 15px;
+    padding-left: 10px;
     background-color: #e6eaf1;
     border-radius: 50px;
     font-size: 14px;
     color: grey;
     cursor: pointer;
-    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out; /* Add transitions */
+    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.sidebar .new-chat img {
+    width: 20px;
+    height: 20px;
 }
 
 .sidebar .new-chat:hover {
     background-color: #d9dfe6;
     transform: scale(1.05); /* Slight hover effect */
+}
+
+.sidebar.sidebar-collapsed .new-chat {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    border-radius: 50%; /* Perfect circle */
+}
+
+.sidebar.sidebar-collapsed .new-chat img {
+    width: 20px; /* Maintain clarity */
+    height: 20px;
+}
+
+.sidebar.sidebar-collapsed .new-chat p {
+    display: none; /* Hide text when collapsed */
 }
 
 .sidebar .recent {
@@ -54,6 +76,7 @@
 .sidebar .recent-title {
     margin-top: 30px;
     margin-bottom: 20px;
+    margin-left: 10px;
     font-weight: bold;
     font-size: 16px;
     color: #333; /* Improved color contrast */
@@ -77,18 +100,43 @@
 
 .sidebar .bottom-item {
     display: flex;
-    align-items: center; /* Align with icons */
-    gap: 10px;
-    padding: 10px 15px;
+    align-items: center; /* Align items vertically */
+    justify-content: flex-start; /* Align items horizontally */
+    gap: 20px; /* Space between icon and text */
     cursor: pointer;
     border-radius: 50px;
+    padding: 10px 15px; /* Add padding for better clickability */
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    background-color: transparent; /* Default background */
+}
+
+.sidebar .bottom-item img {
+    width: 20px; /* Consistent icon size */
+    height: 20px; /* Ensure proper alignment */
+    flex-shrink: 0; /* Prevent shrinking of the icon */
+}
+
+.sidebar .bottom-item p {
+    font-size: 14px; /* Adjust text size for readability */
+    margin: 0; /* Remove unwanted margins */
+    color: #333; /* Text color */
+    flex-grow: 1; /* Let text take up remaining space */
+    margin-bottom: 15px;
 }
 
 .sidebar .bottom-item:hover {
-    background-color: #e6eaf1;
-    color: #000;
+    background-color: #e6eaf1; /* Add hover background */
+    color: #000; /* Change text color on hover */
 }
+
+.sidebar.sidebar-collapsed .bottom-item p {
+    display: none; /* Hide text in collapsed mode */
+}
+
+.sidebar.sidebar-collapsed .bottom-item img {
+    margin: 0 auto; /* Center icon when collapsed */
+}
+
 
 @media screen and (max-width: 600px) {
     .sidebar {

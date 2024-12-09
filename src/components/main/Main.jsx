@@ -6,9 +6,72 @@ import { Context } from '../../components/context/Context';
 const Main = () => {
 
     // Destructuring variables and functions from the Context
-    const { onSent, recentPrompt, showResults, loading, resultData, setInput, input } = useContext(Context);
+    // const { chatId, onSent, recentPrompt, showResults, loading, resultData, setInput, input, newChat, } = useContext(Context);
 
+    const {
+        chatId,
+        setChatId,
+        startNewChat,
+        onSent,
+        recentPrompt,
+        showResults,
+        loading,
+        resultData,
+        setInput,
+        input,
+    } = useContext(Context);
 
+    // const [chatHistory, setChatHistory] = useState([]);   
+
+    const fetchChatHistory = async () => {
+        const sessionToken = sessionStorage.getItem('sessionToken');
+        const chatID = sessionStorage.getItem('chatID') || chatId;
+
+        if (!sessionToken || !chatID) {
+            console.error('Session token or chat ID is missing.');
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/getChatHistory?chatID=${storedChatId}`, {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${sessionToken}`,
+                },
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                // setChatHistory(data.messages); // Populate chat history
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error('Error fetching chat history:', error);
+        }
+    };
+
+     /**
+     * Initialize chatId when the component is first mounted
+     */
+    //  useEffect(() => {
+    //     const initializeChat = async () => {
+    //         const storedChatId = sessionStorage.getItem('chatID');
+
+    //         if (storedChatId) {
+    //             // Use the existing chat ID if it exists
+    //             setChatId(storedChatId);
+    //             fetchChatHistory();
+    //         } else {
+    //             // Start a new chat if no chat ID exists
+    //             const newChatId = await startNewChat();
+    //             setChatId(newChatId);
+    //             sessionStorage.setItem('chatID', newChatId);
+    //         }
+    //     };
+
+    //     initializeChat();
+    // }, []);
 
 
     return (
@@ -66,8 +129,8 @@ const Main = () => {
                                 <hr />
                                 <hr />
                                 <hr />
-                            </div> : <p dangerouslySetInnerHTML={{__html:resultData}}></p>}
-                            
+                            </div> : <p dangerouslySetInnerHTML={{ __html: resultData }}></p>}
+
 
                         </div>
                     </div>
@@ -79,7 +142,7 @@ const Main = () => {
                         <div>
                             <img src={assets.gallery_icon} alt="gallery_icon" />
                             <img src={assets.mic_icon} alt="mic_icon" />
-                            {input?<img onClick={() => onSent()} src={assets.send_icon} alt="send_icon" /> : null}
+                            {input ? <img onClick={() => onSent()} src={assets.send_icon} alt="send_icon" /> : null}
                         </div>
                         {/* <button>Search</button> */}
                     </div>

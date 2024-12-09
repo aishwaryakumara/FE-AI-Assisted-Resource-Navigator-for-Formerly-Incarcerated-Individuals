@@ -1,11 +1,12 @@
-import React, { useContext, useState } from 'react';
-import { Context } from '../context/Context';
-import './sidebar.css';
-import { assets } from '../../assets/assets';
+import React, { useContext, useState } from "react";
+import { Context } from "../context/Context";
+import "./sidebar.css";
+import { assets } from "../../assets/assets";
 
 const SideBar = () => {
     // State to manage the sidebar's expanded/collapsed state
     const [extended, setExtended] = useState(false);
+    // const { startNewChat } = useContext(Context);
 
     // Extracting variables and functions from the Context
     const { onSent, prevPrompt, setRecentPrompt, newChat } = useContext(Context);
@@ -16,20 +17,25 @@ const SideBar = () => {
         await onSent(prompt);
     };
 
+    const handleNewChat = async () => {
+        await startNewChat(); // Start a new chat
+      };
+
     return (
-        <div className={`sidebar ${extended ? 'sidebar-extended' : 'sidebar-collapsed'}`}>
+        <div className={`sidebar ${extended ? "sidebar-extended" : "sidebar-collapsed"}`}>
             <div className="sidebar-top">
                 {/* Toggle Button */}
                 <img
                     onClick={() => setExtended((prev) => !prev)}
                     className="menu"
                     src={assets.menu_icon}
-                    alt="menu_icon"
+                    alt="Toggle Menu"
                 />
-                
+
                 {/* New Chat */}
+                {/* <div onClick={handleNewChat} className="new-chat"> */}
                 <div onClick={() => newChat()} className="new-chat">
-                    <img src={assets.plus_icon} alt="plus_icon" />
+                    <img src={assets.plus_icon} alt="New Chat Icon" />
                     {extended && <p>New Chat</p>}
                 </div>
 
@@ -43,7 +49,7 @@ const SideBar = () => {
                                 onClick={() => loadPrompt(item)}
                                 className="recent-entry"
                             >
-                                <img src={assets.message_icon} alt="message_icon" />
+                                <img src={assets.message_icon} alt="Message Icon" />
                                 <p>{item.slice(0, 20)}...</p>
                             </div>
                         ))}
@@ -53,20 +59,20 @@ const SideBar = () => {
 
             <div className="sidebar-bottom">
                 {/* Help */}
-                <div className="bottom-item recent-entry">
-                    <img src={assets.question_icon} alt="question_icon" />
+                <div className="bottom-item">
+                    <img src={assets.question_icon} alt="Help Icon" />
                     {extended && <p>Help</p>}
                 </div>
 
                 {/* Activity */}
-                <div className="bottom-item recent-entry">
-                    <img src={assets.history_icon} alt="history_icon" />
+                <div className="bottom-item ">
+                    <img src={assets.history_icon} alt="Activity Icon" />
                     {extended && <p>Resource Directory</p>}
                 </div>
 
                 {/* Settings */}
-                <div className="bottom-item recent-entry">
-                    <img src={assets.setting_icon} alt="setting_icon" />
+                <div className="bottom-item">
+                    <img src={assets.setting_icon} alt="Settings Icon" />
                     {extended && <p>Settings</p>}
                 </div>
             </div>

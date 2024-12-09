@@ -12,19 +12,10 @@
   transition: filter 300ms;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(0 0 2em #646cff); /* Use a consistent blue */
 }
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  filter: drop-shadow(0 0 2em #61dafb);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -32,11 +23,60 @@
     animation: logo-spin infinite 20s linear;
   }
 }
+@media (prefers-reduced-motion) {
+  a:nth-of-type(2) .logo {
+    animation: none; /* Disable animations for users with reduced motion preferences */
+  }
+}
 
 .card {
   padding: 2em;
+  border: 1px solid #ddd; /* Add contrast for better visibility */
+  border-radius: 8px;
 }
 
 .read-the-docs {
-  color: #888;
+  color: #555; /* Increase contrast for accessibility */
+}
+
+
+/* Light Theme */
+body[data-theme="light"] {
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --heading-color: #283593; /* Dark blue */
+  --border-color: #cccccc;
+  --card-background: #f9f9f9;
+}
+
+/* Dark Theme */
+body[data-theme="dark"] {
+  --background-color: #121212;
+  --text-color: #ffffff;
+  --heading-color: #ffc107; /* Gold */
+  --border-color: #444444;
+  --card-background: #1e1e1e;
+}
+
+/* Blue Theme */
+body[data-theme="blue"] {
+  --background-color: #e3f2fd;
+  --text-color: #0d47a1; /* Dark blue */
+  --heading-color: #1565c0;
+  --border-color: #90caf9;
+  --card-background: #bbdefb;
+}
+
+:root {
+  --text-size: 16px; /* Default text size */
+}
+
+/* Apply the text size variable globally */
+body {
+  font-size: var(--text-size);
+}
+
+/* Font sizes applied via text size settings */
+html {
+  font-size: 16px; /* Default text size */
 }

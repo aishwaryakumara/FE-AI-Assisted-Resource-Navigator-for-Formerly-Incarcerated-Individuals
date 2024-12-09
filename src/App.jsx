@@ -9,6 +9,9 @@ import FeedbackButton from "./components/feedback/Feedback";
 import LoginPage from "./components/UserLogin/LoginPage";
 import RegisterPage from "./components/UserLogin/RegisterPage";
 import LegalAIHeader from "./components/LegalAIHeader";
+import SettingsPage from "./components/settings-page/settingspage";
+import TermsOfService from "./components/termsOfService/TermsOfService";
+import PrivacyPolicy from "./components/privacypolicy/PrivacyPolicy";
 
 /* The App component includes routing to navigate between Homepage and Chat components. */
 
@@ -22,6 +25,9 @@ const App = () => {
         {/* Route for Homepage */}
         <Route path="/" element={<Homepage />} />
         <Route path="/instructions" element={<InstructionsPage />} />
+        <Route path="/settingspage" element={<SettingsPage />} />
+        <Route path="/terms" element={<TermsOfService />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
 
         {/* Route for Authentication */}
         <Route path="/login" element={<LoginPage />} />

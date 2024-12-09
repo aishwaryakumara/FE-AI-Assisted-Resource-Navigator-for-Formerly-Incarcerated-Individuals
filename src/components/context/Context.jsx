@@ -14,6 +14,8 @@ const ContextProvider = ({ children }) => {
     const [loading, setLoading] = useState(false);
     const [resultData, setResultData] = useState("");
 
+    const [chatId, setChatId] = useState(null);
+
     /**
      * Creating a typeWriter affect by adding delay.
      * @param {number} index - index of the word.
@@ -25,53 +27,152 @@ const ContextProvider = ({ children }) => {
         }, 75 * index)
     }
 
+
+    const startNewChat = async () => {
+        const sessionToken = sessionStorage.getItem("sessionToken");
+
+        if (!sessionToken) {
+            alert("Session token not found. Please log in.");
+            navigate("/login");
+            return;
+        }
+
+        try {
+            const response = await fetch("/api/newChat", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${sessionToken}`,
+                },
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                sessionStorage.setItem("chatID", data.chatID);
+                alert(`New chat started! Chat ID: ${data.chatID}`);
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error("Error starting new chat:", error);
+        }
+    };
+
+
     /**
      * Resets the chat state and starts new Conversation state.
      */
-    const newChat = () => {
+    const newChat = async () => {
+        // await startNewChat();
         setLoading(false)
-        setshowResults(false)
+        setshowResults(false);
+        setInput('');
+        setResultData('');
     }
 
     /**
      * Handling sending of a prompt to backend and processing the response
      * @param {string} prompt - The input prompt to be passed.
      */
+    // const onSent = async (prompt) => {
+    //     setResultData("");
+    //     setLoading(true);
+    //     setshowResults(true);
+    //     let response;
+    //     if (prompt !== undefined) {
+    //         response = await runGemini(prompt);
+    //         setRecentPrompt(prompt);
+    //     }
+    //     else {
+    //         setPrevPrompt(prev => [...prev, input]);
+    //         setRecentPrompt(input);
+    //         response = await runGemini(input);
+    //     }
+    //     let responseArray = response.split('**');
+    //     let newResponse = "";
+    //     for (let i = 0; i < responseArray.length; i++) {
+    //         if (i === 0 || i % 2 !== 1) {
+    //             newResponse += responseArray[i];
+    //         }
+    //         else {
+    //             newResponse += "<b>" + responseArray[i] + '</b>';
+    //         }
+    //     }
+    //     let newResponse2 = newResponse.split("*").join("<br>");
+    //     let newResponseArray = newResponse2.split(" ");
+
+    //     for (let i = 0; i < newResponseArray.length; i++) {
+    //         const nextWord = newResponseArray[i];
+    //         delayPara(i, nextWord + " ");
+    //     }
+    //     setLoading(false);
+    //     setInput('');
+
+    // }
+
+    /**
+     * Handles sending a message (or prompt) to the backend and processing the response
+     * @param {string} prompt - The input prompt to be passed
+     */
     const onSent = async (prompt) => {
-        setResultData("");
+        if (!chatId) {
+            alert('Chat ID not found. Please start a new chat.');
+            return;
+        }
+
+        setResultData('');
         setLoading(true);
-        setshowResults(true);
-        let response;
-        if (prompt !== undefined) {
-            response = await runGemini(prompt);
-            setRecentPrompt(prompt);
+        setShowResults(true);
+
+        const payload = {
+            chatId,
+            message: prompt || input,
+        };
+
+        try {
+            const response = await fetch('/api/sendMessage', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${sessionStorage.getItem('sessionToken')}`,
+                },
+                body: JSON.stringify(payload),
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                setRecentPrompt(payload.message);
+                processResponse(data.response);
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error('Error sending message:', error);
+        } finally {
+            setLoading(false);
+            setInput('');
         }
-        else {
-            setPrevPrompt(prev => [...prev, input]);
-            setRecentPrompt(input);
-            response = await runGemini(input);
-        }
-        let responseArray = response.split('**');
-        let newResponse = "";
+    };
+
+    /**
+     * Processes the backend response to simulate a typewriter effect
+     * @param {string} response - The backend response to be processed
+     */
+    const processResponse = (response) => {
+        const responseArray = response.split('**');
+        let formattedResponse = '';
         for (let i = 0; i < responseArray.length; i++) {
-            if (i === 0 || i % 2 !== 1) {
-                newResponse += responseArray[i];
-            }
-            else {
-                newResponse += "<b>" + responseArray[i] + '</b>';
-            }
+            formattedResponse += i % 2 === 1 ? `<b>${responseArray[i]}</b>` : responseArray[i];
         }
-        let newResponse2 = newResponse.split("*").join("<br>");
-        let newResponseArray = newResponse2.split(" ");
+        const finalResponse = formattedResponse.split('*').join('<br>').split(' ');
 
-        for (let i = 0; i < newResponseArray.length; i++) {
-            const nextWord = newResponseArray[i];
-            delayPara(i, nextWord + " ");
-        }
-        setLoading(false);
-        setInput('');
+        finalResponse.forEach((word, index) => {
+            setTimeout(() => {
+                setResultData((prev) => prev + word + ' ');
+            }, 75 * index);
+        });
+    };
 
-    }
 
     // Context value which contains functions and state values which is shared across components
     const contextValue = {
@@ -86,6 +187,8 @@ const ContextProvider = ({ children }) => {
         input,
         setInput,
         newChat,
+        // startNewChat,
+        chatId,
     }
 
     return (

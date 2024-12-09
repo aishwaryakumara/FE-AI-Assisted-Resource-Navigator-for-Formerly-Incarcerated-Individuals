@@ -7,11 +7,12 @@ const Homepage = () => {
   const [typingStatus, setTypingStatus] = useState("human1");
 
   return (
-    <div className="flex flex-col h-screen bg-gray-800 relative">
+    <div className="flex flex-col h-screen bg-gray-800 relative" role="main">
       {/* Orbital Background */}
       <img
         src="/O4.png"
-        alt="Orbital"
+        alt=""
+        aria-hidden="true"
         className="absolute bottom-0 left-0 opacity-10 pointer-events-none animate-spin-slow"
         style={{ zIndex: 0 }}
       />
@@ -29,36 +30,50 @@ const Homepage = () => {
             LegalAI helps you navigate complex legal systems effortlessly.
             Connect, explore, and simplify.
           </h3>
+
+          {/* Links */}
           <Link
             to="/chat"
-            className="px-6 py-3 bg-gradient-to-r from-yellow-500 to-yellow-400 text-white rounded-full shadow-lg hover:shadow-xl transition-all"
-          >
-            Test Start a Chat 
-          </Link>
-          <Link
-            to="/legalchat"
-            className="px-6 py-3 bg-gradient-to-r from-yellow-500 to-yellow-400 text-white rounded-full shadow-lg hover:shadow-xl transition-all"
+            className="px-6 py-3 bg-gradient-to-r from-yellow-500 to-yellow-400 text-white rounded-full shadow-lg hover:shadow-xl transition-all focus:outline focus:outline-2 focus:outline-yellow-500"
+            aria-label="Start a chat in the regular chat"
           >
             Start a Chat
           </Link>
           <Link
+            to="/legalchat"
+            className="px-6 py-3 bg-gradient-to-r from-yellow-500 to-yellow-400 text-white rounded-full shadow-lg hover:shadow-xl transition-all focus:outline focus:outline-2 focus:outline-yellow-500"
+            aria-label="Start a legal chat"
+          >
+            Start Legal Chat
+          </Link>
+          <Link
             to="/instructions"
-            className="px-6 py-3 bg-gradient-to-r from-yellow-500 to-yellow-400 text-white rounded-full shadow-lg hover:shadow-xl transition-all"
+            className="px-6 py-3 bg-gradient-to-r from-yellow-500 to-yellow-400 text-white rounded-full shadow-lg hover:shadow-xl transition-all focus:outline focus:outline-2 focus:outline-yellow-500"
+            aria-label="View instructions for using LegalAI"
           >
             Instructions
           </Link>
         </div>
 
         {/* Right Section */}
-        <div className="relative w-1/2 flex items-center justify-center">
+        <div
+          className="relative w-1/2 flex items-center justify-center"
+          aria-hidden="true"
+        >
           <div className="bg-gray-800 w-96 h-96 rounded-full flex items-center justify-center relative">
-            <div className="absolute inset-0 rounded-full bg-gray-900 opacity-30 animate-pulse"></div>
+            <div
+              className="absolute inset-0 rounded-full bg-gray-900 opacity-30 animate-pulse"
+              aria-hidden="true"
+            ></div>
             <img
               src="/bot7.png"
-              alt="Bot"
+              alt="LegalAI bot graphic"
               className="z-10 w-2/3 h-2/3 object-contain animate-slow-bounce"
             />
-            <div className="absolute bottom-[-40px] right-[-40px] bg-gray-900 p-4 rounded-xl flex items-center gap-4 shadow-lg">
+            <div
+              className="absolute bottom-[-40px] right-[-40px] bg-gray-900 p-4 rounded-xl flex items-center gap-4 shadow-lg"
+              aria-hidden="true"
+            >
               <img
                 src={
                   typingStatus === "human1"
@@ -67,7 +82,7 @@ const Homepage = () => {
                     ? "/human2.jpeg"
                     : "/bot.png"
                 }
-                alt="User"
+                alt=""
                 className="w-10 h-10 rounded-full object-cover"
               />
               <TypeAnimation
@@ -89,6 +104,7 @@ const Homepage = () => {
                 repeat={Infinity}
                 cursor
                 className="text-white text-sm"
+                aria-live="polite"
               />
             </div>
           </div>
@@ -96,17 +112,25 @@ const Homepage = () => {
       </div>
 
       {/* Footer */}
-      <footer className="flex flex-col items-center pb-6 mt-auto">
+      <footer className="flex flex-col items-center pb-6 mt-auto" role="contentinfo">
         <img
           src="/legalAI Logo.png"
-          alt="LegalAI Logo"
+          alt="LegalAI logo"
           className="w-16 h-16 mb-2"
         />
         <div className="flex gap-4 text-sm text-gray-200">
-          <Link to="/about" className="hover:text-gray-900 transition">
+          <Link
+            to="/terms"
+            className="hover:text-gray-900 transition focus:outline focus:outline-2 focus:outline-yellow-500"
+            aria-label="View terms of service"
+          >
             Terms of Service
           </Link>
-          <Link to="/contact" className="hover:text-gray-900 transition">
+          <Link
+            to="/privacy"
+            className="hover:text-gray-900 transition focus:outline focus:outline-2 focus:outline-yellow-500"
+            aria-label="View privacy policy"
+          >
             Privacy Policy
           </Link>
         </div>

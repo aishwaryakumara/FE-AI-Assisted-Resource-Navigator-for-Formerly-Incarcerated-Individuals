@@ -21,7 +21,7 @@ const LoginPage = () => {
       const data = await response.json();
       if (response.ok) {
         sessionStorage.setItem("sessionToken", data.sessionToken);
-        navigate("/chat");
+        navigate("/legalchat");
       } else {
         alert(data.message);
       }

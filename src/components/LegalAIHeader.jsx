@@ -14,7 +14,7 @@ const LegalAIHeader = () => {
   };
 
   const handleSettings = () => {
-    navigate("/settings");
+    navigate("/settingspage");
   };
 
   return (
