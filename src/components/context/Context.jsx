@@ -115,42 +115,69 @@ const ContextProvider = ({ children }) => {
      * @param {string} prompt - The input prompt to be passed
      */
     const onSent = async (prompt) => {
-        if (!chatId) {
-            alert('Chat ID not found. Please start a new chat.');
-            return;
-        }
-
         setResultData('');
         setLoading(true);
-        setShowResults(true);
+        setshowResults(true);
 
         const payload = {
-            chatId,
-            message: prompt || input,
+            // chatId,
+            message: prompt,
         };
 
-        try {
-            const response = await fetch('/api/sendMessage', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${sessionStorage.getItem('sessionToken')}`,
-                },
-                body: JSON.stringify(payload),
-            });
-
-            const data = await response.json();
-            if (response.ok) {
-                setRecentPrompt(payload.message);
-                processResponse(data.response);
-            } else {
-                alert(data.message);
+        if (!chatId) {
+            try {
+                const response = await fetch('api/legalchat/get_response', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${sessionStorage.getItem('sessionToken')}`,
+                    },
+                    body: JSON.stringify(payload),
+                });
+    
+                const data = await response.json();
+                if (response.ok) {
+                    setRecentPrompt(payload.message);
+                    processResponse(data.response.user_query_response);
+                    navigate(`/legalchat/${response.chat_session_id}`);
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                console.error('Error sending message:', error);
+            } finally {
+                setLoading(false);
+                setInput('');
             }
-        } catch (error) {
-            console.error('Error sending message:', error);
-        } finally {
-            setLoading(false);
-            setInput('');
+            // alert('Chat ID not found. Please start a new chat.');
+            // return;
+        }
+        else
+        {
+            try {
+                const response = await fetch(`api/legalchat/${chatId}/get_response`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${sessionStorage.getItem('sessionToken')}`,
+                    },
+                    body: JSON.stringify(payload),
+                });
+    
+                const data = await response.json();
+                if (response.ok) {
+                    setRecentPrompt(payload.message);
+                    processResponse(data.response);
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                console.error('Error sending message:', error);
+            } finally {
+                setLoading(false);
+                setInput('');
+            }
+
         }
     };
 

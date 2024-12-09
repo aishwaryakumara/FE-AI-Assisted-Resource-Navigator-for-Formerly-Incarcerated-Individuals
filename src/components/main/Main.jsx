@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import './main.css'; // Importing styles required
 import { assets } from '../../assets/assets'; // Importing assets
 import { Context } from '../../components/context/Context';
@@ -54,24 +54,24 @@ const Main = () => {
      /**
      * Initialize chatId when the component is first mounted
      */
-    //  useEffect(() => {
-    //     const initializeChat = async () => {
-    //         const storedChatId = sessionStorage.getItem('chatID');
+     useEffect(() => {
+        // const initializeChat = async () => {
+        //     const storedChatId = sessionStorage.getItem('chatID');
 
-    //         if (storedChatId) {
-    //             // Use the existing chat ID if it exists
-    //             setChatId(storedChatId);
-    //             fetchChatHistory();
-    //         } else {
-    //             // Start a new chat if no chat ID exists
-    //             const newChatId = await startNewChat();
-    //             setChatId(newChatId);
-    //             sessionStorage.setItem('chatID', newChatId);
-    //         }
-    //     };
+        //     if (storedChatId) {
+        //         // Use the existing chat ID if it exists
+        //         setChatId(storedChatId);
+        //         fetchChatHistory();
+        //     } else {
+        //         // Start a new chat if no chat ID exists
+        //         const newChatId = await startNewChat();
+        //         setChatId(newChatId);
+        //         sessionStorage.setItem('chatID', newChatId);
+        //     }
+        // };
 
-    //     initializeChat();
-    // }, []);
+        // initializeChat();
+    }, []);
 
 
     return (

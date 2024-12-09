@@ -36,6 +36,7 @@ const App = () => {
         {/* Route for Chat */}
         <Route path="/chat" element={<Chat />} />
         <Route path="/legalchat" element={<LegalChat />} />
+        <Route path="/legalchat/:chatId" element={<LegalChat />} />
 
       </Routes>
     </Router>
