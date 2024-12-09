@@ -20,7 +20,8 @@ const LoginPage = () => {
 
       const data = await response.json();
       if (response.ok) {
-        sessionStorage.setItem("sessionToken", data.sessionToken);
+        console.log("SessionToken: ",data.access_token)
+        sessionStorage.setItem("sessionToken", data.access_token);
         navigate("/legalchat");
       } else {
         alert(data.message);

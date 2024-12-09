@@ -115,17 +115,19 @@ const ContextProvider = ({ children }) => {
      * @param {string} prompt - The input prompt to be passed
      */
     const onSent = async (prompt) => {
+        console.log("prompt = ",prompt)
         setResultData('');
         setLoading(true);
         setshowResults(true);
 
         const payload = {
             // chatId,
-            message: prompt,
+            user_query: prompt,
         };
 
         if (!chatId) {
             try {
+                console.log("body = ",JSON.stringify(payload))
                 const response = await fetch('api/legalchat/get_response', {
                     method: 'POST',
                     headers: {
@@ -136,10 +138,11 @@ const ContextProvider = ({ children }) => {
                 });
     
                 const data = await response.json();
+                console.log("response = ",data)
                 if (response.ok) {
-                    setRecentPrompt(payload.message);
-                    processResponse(data.response.user_query_response);
-                    navigate(`/legalchat/${response.chat_session_id}`);
+                    setRecentPrompt(payload.user_query);
+                    processResponse(data.user_query_response);
+                    navigate(`/legalchat/${data.chat_session_id}`);
                 } else {
                     alert(data.message);
                 }
@@ -155,6 +158,7 @@ const ContextProvider = ({ children }) => {
         else
         {
             try {
+                console.log("body = ",JSON.stringify(payload))
                 const response = await fetch(`api/legalchat/${chatId}/get_response`, {
                     method: 'POST',
                     headers: {
@@ -163,10 +167,10 @@ const ContextProvider = ({ children }) => {
                     },
                     body: JSON.stringify(payload),
                 });
-    
+                
                 const data = await response.json();
                 if (response.ok) {
-                    setRecentPrompt(payload.message);
+                    setRecentPrompt(payload.user_query);
                     processResponse(data.response);
                 } else {
                     alert(data.message);

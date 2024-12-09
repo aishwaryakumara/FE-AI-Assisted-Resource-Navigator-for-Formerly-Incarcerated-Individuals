@@ -142,7 +142,7 @@ const Main = () => {
                         <div>
                             <img src={assets.gallery_icon} alt="gallery_icon" />
                             <img src={assets.mic_icon} alt="mic_icon" />
-                            {input ? <img onClick={() => onSent()} src={assets.send_icon} alt="send_icon" /> : null}
+                            {input ? <img onClick={() => onSent(input)} src={assets.send_icon} alt="send_icon" /> : null}
                         </div>
                         {/* <button>Search</button> */}
                     </div>
